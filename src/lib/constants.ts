@@ -2,7 +2,7 @@ export const BRAND_NAME = "Katrinna";
 export const STUDIO_NAME = "Studio Afro Rosa's";
 export const TAGLINE = "Trance. Empreenda. Domine.";
 
-export const WHATSAPP_NUMBER = "5511999999999"; // Replace with real number
+export const WHATSAPP_NUMBER = "5521986960463";
 export const WHATSAPP_BASE = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export function whatsappLink(message: string) {
