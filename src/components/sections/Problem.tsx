@@ -1,6 +1,7 @@
 "use client";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { XCircle } from "lucide-react";
 
 const pains = [
   "Você trabalha o dia todo trançando, sente dor nas mãos e nas costas… mas no fim do mês mal sobra dinheiro.",
@@ -47,14 +48,14 @@ export default function Problem() {
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 + i * 0.1 }}
               className="flex items-start gap-4 rounded-2xl p-5"
-              style={{ background: "rgba(20,28,36,0.8)", border: "1px solid rgba(255,255,255,0.06)" }}
+              style={{ background: "rgba(28,42,56,0.8)", border: "1px solid rgba(255,255,255,0.09)" }}
             >
-              <span
-                className="mt-1 flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-black"
-                style={{ background: "rgba(196,99,122,0.2)", color: "#c4637a" }}
-              >
-                ✗
-              </span>
+              <XCircle
+                size={20}
+                color="#c4637a"
+                strokeWidth={2}
+                className="mt-0.5 flex-shrink-0"
+              />
               <p className="text-white/75 text-base leading-relaxed">{pain}</p>
             </motion.div>
           ))}

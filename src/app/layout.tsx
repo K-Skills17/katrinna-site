@@ -33,7 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="pt-BR"
       className={`${playfair.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#0e1318] text-white">
+      <body className="min-h-full flex flex-col bg-[#111820] text-white">
         {children}
         <WhatsAppButton />
       </body>

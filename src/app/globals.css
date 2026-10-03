@@ -5,10 +5,10 @@
   --gold-light: #e8c87a;
   --gold-dark: #9a7a38;
   --rose: #c4637a;
-  --bg: #0e1318;
-  --bg-card: #141c24;
-  --bg-card2: #1a2330;
-  --text-muted: #8a96a8;
+  --bg: #111820;
+  --bg-card: #1c2a38;
+  --bg-card2: #223040;
+  --text-muted: #9aa8ba;
 }
 
 @theme inline {

@@ -11,17 +11,20 @@ export default function Hero() {
       id="inicio"
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* Background image */}
+      {/* Background image — top-anchored so the head stays visible */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${driveImageUrl(bgId, 1920)})` }}
+        className="absolute inset-0 bg-cover bg-no-repeat"
+        style={{
+          backgroundImage: `url(${driveImageUrl(bgId, 1920)})`,
+          backgroundPosition: "50% 15%",
+        }}
       />
-      {/* Dark overlay — gradient top to bottom */}
+      {/* Lightened overlay — shows image clearly, darkens only at edges */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(14,19,24,0.75) 0%, rgba(14,19,24,0.55) 40%, rgba(14,19,24,0.85) 80%, rgba(14,19,24,1) 100%)",
+            "linear-gradient(to bottom, rgba(14,19,24,0.45) 0%, rgba(14,19,24,0.2) 35%, rgba(14,19,24,0.55) 70%, rgba(14,19,24,0.95) 100%)",
         }}
       />
 
