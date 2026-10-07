@@ -1,7 +1,7 @@
 "use client";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { WA_ETM, driveImageUrl, DRIVE_IMAGE_IDS } from "@/lib/constants";
+import { WA_ETM, driveImageUrl } from "@/lib/constants";
 import SectionLabel from "@/components/ui/SectionLabel";
 import DecoFrame from "@/components/ui/DecoFrame";
 
@@ -18,7 +18,7 @@ export default function FinalCTA() {
       {/* Background image with overlay */}
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${driveImageUrl(DRIVE_IMAGE_IDS[3], 1920)})` }}
+        style={{ backgroundImage: `url(${driveImageUrl("1FrA2bXXJwVM989gimE6zZ7_wxy35HJWS", 1920)})` }}
       />
       <div
         className="absolute inset-0"

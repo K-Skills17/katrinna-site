@@ -1,7 +1,7 @@
 "use client";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { WA_GENERAL, driveImageUrl, DRIVE_IMAGE_IDS } from "@/lib/constants";
+import { WA_GENERAL, driveImageUrl } from "@/lib/constants";
 import SectionLabel from "@/components/ui/SectionLabel";
 import DecoFrame from "@/components/ui/DecoFrame";
 
@@ -36,7 +36,7 @@ export default function About() {
             />
             <div className="relative rounded-3xl overflow-hidden">
               <img
-                src={driveImageUrl(DRIVE_IMAGE_IDS[5], 800)}
+                src={driveImageUrl("1oaG5lwDMr8iDrEuhFehtbnG81i3ihAZf", 800)}
                 alt="Katrinna — Especialista em Tranças"
                 className="w-full object-cover"
                 style={{ aspectRatio: "4/5", objectPosition: "top" }}

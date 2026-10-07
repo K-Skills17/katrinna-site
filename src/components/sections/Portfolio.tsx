@@ -1,21 +1,21 @@
 "use client";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { DRIVE_IMAGE_IDS, driveImageUrl, WA_GENERAL } from "@/lib/constants";
+import { driveImageUrl, WA_GENERAL } from "@/lib/constants";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import SectionLabel from "@/components/ui/SectionLabel";
 
-// Pick 8 images with varied aspect-ratio labels for the floating layout
+// One pick per style — spread across all 7 categories
 const PICKS = [
-  { id: DRIVE_IMAGE_IDS[1],  label: "Box Braids",  tall: true  },
-  { id: DRIVE_IMAGE_IDS[4],  label: "Boho Braids", tall: false },
-  { id: DRIVE_IMAGE_IDS[7],  label: "Nagô",        tall: true  },
-  { id: DRIVE_IMAGE_IDS[10], label: "Box Braids",  tall: false },
-  { id: DRIVE_IMAGE_IDS[13], label: "Boho Braids", tall: true  },
-  { id: DRIVE_IMAGE_IDS[16], label: "Twiste",      tall: false },
-  { id: DRIVE_IMAGE_IDS[19], label: "Nagô",        tall: true  },
-  { id: DRIVE_IMAGE_IDS[22], label: "Box Braids",  tall: false },
+  { id: "1CL1IgT-woA5bFWFUGrlN9CcgrAVq8oNk", label: "Box Braids",       tall: true  },
+  { id: "1lZDBfbXS_Tz0uSCgyGSoyZEeFHX3TCcK", label: "Dreads Sintético", tall: false },
+  { id: "1Gqvu6xJKKKQN3fCcfafFTER69d2hF8Bv", label: "Entrelace",        tall: true  },
+  { id: "1BtL2mygNmkaSUFdDWQaHMB6-uplw58BA", label: "Gypsy Braids",     tall: false },
+  { id: "1Uwgo1QG4Sx12u6Qh3x51Hjm_kobnzb8x", label: "Lemonade Braids",  tall: true  },
+  { id: "14dklAYNCViC9nhZtOd-XpVONJTomDv3h", label: "Nagô",             tall: false },
+  { id: "1Dq8aZTwXRtKm7kbOW0OBHH8p0tQV1ULo", label: "Twiste Braids",   tall: true  },
+  { id: "1oaG5lwDMr8iDrEuhFehtbnG81i3ihAZf", label: "Nagô",             tall: false },
 ];
 
 // Slight tilt per card — alternates for a "scattered on table" feel

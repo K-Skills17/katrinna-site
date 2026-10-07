@@ -1,6 +1,13 @@
 "use client";
 import { motion } from "framer-motion";
-import { driveImageUrl, DRIVE_IMAGE_IDS } from "@/lib/constants";
+import { driveImageUrl } from "@/lib/constants";
+
+// Background images for sub-page heroes (one per index)
+const BG_IMAGES = [
+  "14dklAYNCViC9nhZtOd-XpVONJTomDv3h",  // Nagô
+  "1BtL2mygNmkaSUFdDWQaHMB6-uplw58BA",  // Gypsy Braids
+  "1Uwgo1QG4Sx12u6Qh3x51Hjm_kobnzb8x",  // Lemonade Braids
+];
 import SectionLabel from "@/components/ui/SectionLabel";
 
 interface PageHeroProps {
@@ -27,7 +34,7 @@ export default function PageHero({
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url(${driveImageUrl(DRIVE_IMAGE_IDS[bgImageIndex], 1920)})`,
+          backgroundImage: `url(${driveImageUrl(BG_IMAGES[bgImageIndex] ?? BG_IMAGES[0], 1920)})`,
         }}
       />
       <div

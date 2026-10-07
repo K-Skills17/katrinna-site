@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { WA_ETM, driveImageUrl, DRIVE_IMAGE_IDS } from "@/lib/constants";
+import { WA_ETM, driveImageUrl } from "@/lib/constants";
 
 export default function Hero() {
-  const bgId = DRIVE_IMAGE_IDS[0];
+  const bgId = "1nHjgC9fyid8CDm5_90iZVXfvXN7k05jB";
 
   return (
     <section

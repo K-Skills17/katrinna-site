@@ -19,32 +19,58 @@ export const WA_GENERAL = whatsappLink(
   "Olá Katrinna! Vim pelo site e quero saber mais 😊"
 );
 
-export const DRIVE_IMAGE_IDS = [
-  "1PPSaU8Q1pK9N9KoL1t0wDJMtsc65btyi",
-  "1PR4SttDGLuGqW-0MvJVRIpgQQoWuboO2",
-  "1PRC1KvxveOvE_KaeSFXMEZtvtY6kd0Rv",
-  "1PRWuCoxMR7YDNMTMqQWwRlCOLPp8FXMP",
-  "1PVeFsVLgBdwDqGZCb6fHddi3qh5fti8z",
-  "1PecPM78-GJNK2_JYMwduGwPae0AVeQaB",
-  "1PgazRK56nGbcnb-o-clc_9O2i2ByxHYF",
-  "1PmTmxvWKxtVBSP6oEMY30YpG9UnLyzPG",
-  "1PsSUjF-dZxAYL7AK-jAEI9GPVbtI_Y0X",
-  "1Q3ViHtinw4RRQEfUBEDmyGODOCjm00NF",
-  "1QAkl5_DGdEzG7ceSrcgnb_tau84yWrmY",
-  "1QGCb0fGw3cvLYDEIRPQT1mKyiN8i344q",
-  "1QGmrGfgotHMBUXKd_ciZJDpUAXWfJo2P",
-  "1QIxbTNOShTFbYbybj9QSNKEjgkOP3Cvt",
-  "1QNAES5VXtJ6xaNHdiIVLyP3H78puFljN",
-  "1QPiS995y1O0ebXYEEjHAtRaPDq6Hhb7J",
-  "1QagDQR4xFUAlYNkwQS9hBhdDhgPfRf8o",
-  "1QbgOyWCBrtWfmB7DDJmAxYleYQ-6iC9_",
-  "1Qglnq4IfuZjq9zvWIq0rn5nCRHWTHhe_",
-  "1QjFYAGa6mnIhXiWJcMAsFr80r35jTCKI",
-  "1QkW6VvW2iGImDSKd9o6CDlirUv3Ndd1i",
-  "1QoSY0E3OlKemGgKQHF2-CqiUHzYRcGnS",
-  "1Qw8LpEQTO68hPmS8kUVXFO8pqHE0hE1l",
-  "1R0tN3yshfvEBSeEzg6-g5yiASXqhwgzm",
+export type GalleryPhoto = { id: string; cat: string };
+
+export const GALLERY_PHOTOS: GalleryPhoto[] = [
+  // Box Braids
+  { id: "1CL1IgT-woA5bFWFUGrlN9CcgrAVq8oNk", cat: "Box Braids" },
+  { id: "1jS7s-a0_AXHo2lKmgoNsZ7949djGnXlf", cat: "Box Braids" },
+  { id: "1FrA2bXXJwVM989gimE6zZ7_wxy35HJWS", cat: "Box Braids" },
+  // Dreads Sintético
+  { id: "1lZDBfbXS_Tz0uSCgyGSoyZEeFHX3TCcK", cat: "Dreads Sintético" },
+  { id: "10XZuvJNzH908gseKMcHnRDrWemQIrq4e", cat: "Dreads Sintético" },
+  // Entrelace
+  { id: "1Gqvu6xJKKKQN3fCcfafFTER69d2hF8Bv", cat: "Entrelace" },
+  { id: "1YZLC-IYh9qdXICBUfQucn66ylNzXD2Or", cat: "Entrelace" },
+  { id: "1Uh8_phR2B5ySK-5GakGiixqd7TAMCFMY", cat: "Entrelace" },
+  { id: "1hfRskGqvO9I3r9ZeFherufR5ryKy7o6i", cat: "Entrelace" },
+  // Gypsy Braids
+  { id: "1BtL2mygNmkaSUFdDWQaHMB6-uplw58BA", cat: "Gypsy Braids" },
+  { id: "1xwZ6x3Y2OP2lEID6Symg6yAu4ONxTeWR", cat: "Gypsy Braids" },
+  { id: "190f6hrEqRu08-aEBkCGrUtq5syDAy-uz", cat: "Gypsy Braids" },
+  { id: "1rAuEUP1nAzUEGWjwPGVfdXYeKC3-L2Yv", cat: "Gypsy Braids" },
+  // Lemonade Braids
+  { id: "1Uwgo1QG4Sx12u6Qh3x51Hjm_kobnzb8x", cat: "Lemonade Braids" },
+  { id: "1gjlUAYj_Ocx3A8kTMvAHLd79Zcx9LfzC", cat: "Lemonade Braids" },
+  { id: "1VIns4XkEMGhYxBsPb_NPUkXdOSXJlrNU", cat: "Lemonade Braids" },
+  { id: "1XMAjaUEgzo4p1kudMyMQnBsIFet2FFrd", cat: "Lemonade Braids" },
+  // Nagô
+  { id: "14dklAYNCViC9nhZtOd-XpVONJTomDv3h", cat: "Nagô" },
+  { id: "1oaG5lwDMr8iDrEuhFehtbnG81i3ihAZf", cat: "Nagô" },
+  { id: "1tAMsu_mloTJZOBfy-fjgfFqDJRSjsht6", cat: "Nagô" },
+  { id: "1NyLxmvaka3gZXUpvzkLsL5bFuMmhd8Y6", cat: "Nagô" },
+  { id: "1nHjgC9fyid8CDm5_90iZVXfvXN7k05jB", cat: "Nagô" },
+  { id: "1an81c4UKLedN15W7Im875RE5tpdXeM3j", cat: "Nagô" },
+  { id: "1uNaK9F9g_9Bh7D7cjy7BBSxgPTt_90ow", cat: "Nagô" },
+  { id: "1jBMHgMhkb833B8JmWTBh35KPrHuu9ZMw", cat: "Nagô" },
+  { id: "1qK3M7vYsKhPuaQrFnezg8LH7VE-vXWNS", cat: "Nagô" },
+  { id: "1zY0-LuqOwbI96mRAeD9TZ97nmcoXc-vE", cat: "Nagô" },
+  { id: "1gVhpUoUJ-1QgC5d1m8RO0PAnE59GUUmd", cat: "Nagô" },
+  // Twiste Braids
+  { id: "1Dq8aZTwXRtKm7kbOW0OBHH8p0tQV1ULo", cat: "Twiste Braids" },
+  { id: "1UuKZyNa4iggdxG_iks1j07QhCDwUHhrH", cat: "Twiste Braids" },
 ];
+
+export const GALLERY_CATEGORIES = [
+  "Todos",
+  "Box Braids",
+  "Dreads Sintético",
+  "Entrelace",
+  "Gypsy Braids",
+  "Lemonade Braids",
+  "Nagô",
+  "Twiste Braids",
+] as const;
 
 export function driveImageUrl(id: string, size = 800) {
   return `https://lh3.googleusercontent.com/d/${id}=w${size}`;
