@@ -2,6 +2,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { XCircle } from "lucide-react";
+import SectionLabel from "@/components/ui/SectionLabel";
 
 const pains = [
   "Você trabalha o dia todo trançando, sente dor nas mãos e nas costas… mas no fim do mês mal sobra dinheiro.",
@@ -25,9 +26,7 @@ export default function Problem() {
           transition={{ duration: 0.7 }}
           className="text-center mb-14"
         >
-          <span className="text-[#c9a052] text-xs font-bold tracking-[0.3em] uppercase mb-4 block">
-            A realidade que ninguém fala
-          </span>
+          <SectionLabel>A realidade que ninguém fala</SectionLabel>
           <h2 className="font-serif font-black text-4xl md:text-5xl leading-tight mb-5">
             Você tem o talento.
             <br />

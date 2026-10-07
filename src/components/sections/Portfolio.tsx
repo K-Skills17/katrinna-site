@@ -3,6 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { DRIVE_IMAGE_IDS, driveImageUrl, WA_GENERAL } from "@/lib/constants";
 import { ExternalLink } from "lucide-react";
+import SectionLabel from "@/components/ui/SectionLabel";
 
 // Pick 8 images with varied aspect-ratio labels for the floating layout
 const PICKS = [
@@ -34,9 +35,7 @@ export default function Portfolio() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <span className="text-[#c9a052] text-xs font-bold tracking-[0.3em] uppercase mb-4 block">
-            Meus trabalhos
-          </span>
+          <SectionLabel>Meus trabalhos</SectionLabel>
           <h2 className="font-serif font-black text-4xl md:text-5xl leading-tight mb-4">
             O trabalho fala{" "}
             <span className="text-gold-gradient italic">por si só.</span>
@@ -92,8 +91,16 @@ export default function Portfolio() {
 
               {/* Label */}
               <div className="absolute bottom-0 left-0 right-0 p-3 flex items-end justify-between">
-                <span className="text-white text-xs font-bold tracking-wide drop-shadow">
-                  {item.label}
+                <span className="flex flex-col gap-0.5">
+                  <span
+                    className="font-black leading-none"
+                    style={{ color: "#c9a052", fontSize: "0.55rem", letterSpacing: "0.15em" }}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-white text-xs font-bold tracking-wide drop-shadow">
+                    {item.label}
+                  </span>
                 </span>
                 <motion.div
                   animate={{ opacity: hovered === i ? 1 : 0, scale: hovered === i ? 1 : 0.8 }}

@@ -2,6 +2,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { WA_ETM, WA_EBOOK } from "@/lib/constants";
+import SectionLabel from "@/components/ui/SectionLabel";
 
 const etmModules = [
   "Box Braids — básico ao avançado",
@@ -37,9 +38,7 @@ export default function Courses() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <span className="text-[#c9a052] text-xs font-bold tracking-[0.3em] uppercase mb-4 block">
-            Meus produtos
-          </span>
+          <SectionLabel>Meus produtos</SectionLabel>
           <h2 className="font-serif font-black text-4xl md:text-5xl leading-tight mb-5">
             Escolha seu{" "}
             <span className="text-gold-gradient italic">próximo passo</span>

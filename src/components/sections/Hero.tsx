@@ -38,9 +38,15 @@ export default function Hero() {
           className="flex items-center gap-3"
         >
           <span className="gold-line" />
-          <span className="text-[#c9a052] text-xs font-bold tracking-[0.3em] uppercase">
+          <span
+            style={{ display: "block", width: "5px", height: "5px", background: "#c9a052", transform: "rotate(45deg)", flexShrink: 0 }}
+          />
+          <span className="text-[#c9a052] font-bold tracking-[0.32em] uppercase" style={{ fontSize: "0.65rem" }}>
             Studio Afro Rosa&apos;s
           </span>
+          <span
+            style={{ display: "block", width: "5px", height: "5px", background: "#c9a052", transform: "rotate(45deg)", flexShrink: 0 }}
+          />
           <span className="gold-line" />
         </motion.div>
 

@@ -108,3 +108,35 @@ body {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+/* Large serif quotation mark — testimonial decoration */
+.quote-mark-deco {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 4.5rem;
+  line-height: 0.8;
+  font-weight: 900;
+  color: rgba(201, 160, 82, 0.18);
+  user-select: none;
+  display: block;
+}
+
+/* Gold top-accent card border */
+.card-top-gold {
+  border-top: 1.5px solid rgba(201, 160, 82, 0.35) !important;
+}
+
+/* Sparkle rotate animation for diamond ornaments */
+@keyframes diamond-shimmer {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.diamond-shimmer {
+  animation: diamond-shimmer 3s ease-in-out infinite;
+}
+
+/* Thin vertical separator for stats */
+.stat-sep {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, rgba(201,160,82,0.4), transparent);
+}

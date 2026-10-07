@@ -17,28 +17,37 @@ export default function SocialProof() {
   return (
     <section
       ref={ref}
-      className="py-10 border-y border-white/10"
-      style={{ background: "rgba(201,160,82,0.06)" }}
+      className="py-10"
+      style={{
+        background: "rgba(201,160,82,0.05)",
+        borderTop: "1px solid rgba(201,160,82,0.2)",
+        borderBottom: "1px solid rgba(201,160,82,0.2)",
+      }}
     >
       <div className="max-w-5xl mx-auto px-5">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 md:divide-x divide-white/10">
+        <div className="flex items-center justify-center flex-wrap gap-0">
           {stats.map((s, i) => (
-            <motion.div
-              key={s.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="flex flex-col items-center gap-1 py-4 px-6 text-center"
-            >
-              <span
-                className="font-serif font-black text-4xl text-gold-gradient leading-none"
+            <div key={s.label} className="flex items-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: i * 0.12 }}
+                className="flex flex-col items-center gap-1.5 py-4 px-8 md:px-12 text-center"
               >
-                {s.number}
-              </span>
-              <span className="text-white/60 text-sm font-medium tracking-wide">
-                {s.label}
-              </span>
-            </motion.div>
+                <span className="font-serif font-black text-4xl md:text-5xl text-gold-gradient leading-none">
+                  {s.number}
+                </span>
+                <span
+                  className="text-white/50 font-medium tracking-widest uppercase"
+                  style={{ fontSize: "0.6rem", letterSpacing: "0.2em" }}
+                >
+                  {s.label}
+                </span>
+              </motion.div>
+              {i < stats.length - 1 && (
+                <span className="stat-sep hidden md:block" />
+              )}
+            </div>
           ))}
         </div>
       </div>

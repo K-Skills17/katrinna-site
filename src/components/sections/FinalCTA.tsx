@@ -2,6 +2,8 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { WA_ETM, driveImageUrl, DRIVE_IMAGE_IDS } from "@/lib/constants";
+import SectionLabel from "@/components/ui/SectionLabel";
+import DecoFrame from "@/components/ui/DecoFrame";
 
 export default function FinalCTA() {
   const ref = useRef(null);
@@ -35,14 +37,19 @@ export default function FinalCTA() {
       />
 
       <div className="relative z-10 max-w-3xl mx-auto text-center flex flex-col items-center gap-7">
+        {/* Decorative Art Deco frame around entire content */}
+        <div
+          className="relative w-full flex flex-col items-center gap-7 px-6 pt-10 pb-10"
+          style={{ border: "1px solid rgba(201,160,82,0.12)" }}
+        >
+          <DecoFrame size={32} opacity={0.5} />
+
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
         >
-          <span className="text-[#c9a052] text-xs font-bold tracking-[0.3em] uppercase mb-5 block">
-            Sua vez de mudar
-          </span>
+          <SectionLabel>Sua vez de mudar</SectionLabel>
           <h2
             className="font-serif font-black leading-[1.1]"
             style={{ fontSize: "clamp(2.4rem, 6vw, 4.5rem)" }}
@@ -92,6 +99,8 @@ export default function FinalCTA() {
         >
           Atendimento personalizado · Vagas limitadas · Resposta no WhatsApp
         </motion.p>
+
+        </div>{/* end deco frame wrapper */}
       </div>
     </section>
   );

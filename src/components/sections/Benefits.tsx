@@ -9,6 +9,7 @@ import {
   Lightbulb,
   Award,
 } from "lucide-react";
+import SectionLabel from "@/components/ui/SectionLabel";
 
 const benefits = [
   {
@@ -57,9 +58,7 @@ export default function Benefits() {
           transition={{ duration: 0.7 }}
           className="text-center mb-14"
         >
-          <span className="text-[#c9a052] text-xs font-bold tracking-[0.3em] uppercase mb-4 block">
-            O que você ganha
-          </span>
+          <SectionLabel>O que você ganha</SectionLabel>
           <h2 className="font-serif font-black text-4xl md:text-5xl leading-tight mb-5">
             Não é só aprender tranças.
             <br />
@@ -79,15 +78,15 @@ export default function Benefits() {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.55, delay: 0.1 + i * 0.1 }}
-              className="rounded-2xl p-6 flex flex-col gap-4 hover:border-[#c9a052]/50 transition-all group"
+              className="rounded-2xl p-6 flex flex-col gap-4 card-top-gold hover:border-[#c9a052]/50 transition-all group"
               style={{
                 background: "rgba(28,42,56,0.85)",
-                border: "1px solid rgba(255,255,255,0.1)",
+                border: "1px solid rgba(255,255,255,0.08)",
               }}
             >
               <div
-                className="w-11 h-11 rounded-xl flex items-center justify-center transition-colors group-hover:bg-[#c9a052]/20"
-                style={{ background: "rgba(201,160,82,0.12)" }}
+                className="w-11 h-11 rounded-full flex items-center justify-center transition-colors group-hover:bg-[#c9a052]/20"
+                style={{ background: "rgba(201,160,82,0.1)", border: "1px solid rgba(201,160,82,0.2)" }}
               >
                 <b.Icon size={22} color="#c9a052" strokeWidth={1.8} />
               </div>

@@ -30,8 +30,16 @@ export default function Navbar() {
     >
       <div className="max-w-6xl mx-auto px-5 flex items-center justify-between h-16">
         {/* Logo */}
-        <a href="#" className="font-serif font-black text-xl tracking-widest uppercase text-gold-gradient">
+        <a href="#" className="font-serif font-black text-xl tracking-widest uppercase text-gold-gradient flex items-center gap-2">
+          <span
+            className="diamond-shimmer"
+            style={{ display: "block", width: "5px", height: "5px", background: "#c9a052", transform: "rotate(45deg)", flexShrink: 0, opacity: 0.7 }}
+          />
           KATRINNA
+          <span
+            className="diamond-shimmer"
+            style={{ display: "block", width: "5px", height: "5px", background: "#c9a052", transform: "rotate(45deg)", flexShrink: 0, opacity: 0.7 }}
+          />
         </a>
 
         {/* Desktop links */}

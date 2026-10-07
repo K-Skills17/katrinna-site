@@ -1,6 +1,7 @@
 "use client";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import SectionLabel from "@/components/ui/SectionLabel";
 
 // Real testimonials to be added by client — placeholders marked
 const testimonials = [
@@ -61,9 +62,7 @@ export default function Testimonials() {
           transition={{ duration: 0.7 }}
           className="text-center mb-14"
         >
-          <span className="text-[#c9a052] text-xs font-bold tracking-[0.3em] uppercase mb-4 block">
-            Depoimentos
-          </span>
+          <SectionLabel>Depoimentos</SectionLabel>
           <h2 className="font-serif font-black text-4xl md:text-5xl leading-tight">
             Histórias que{" "}
             <span className="text-gold-gradient italic">inspiram</span>
@@ -78,18 +77,14 @@ export default function Testimonials() {
               initial={{ opacity: 0, y: 28 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.55, delay: 0.1 + i * 0.08 }}
-              className="rounded-2xl p-6 flex flex-col gap-4"
+              className="rounded-2xl p-6 flex flex-col gap-3 card-top-gold"
               style={{
                 background: "rgba(14,19,24,0.9)",
                 border: "1px solid rgba(255,255,255,0.07)",
               }}
             >
-              {/* Stars */}
-              <div className="flex gap-1">
-                {[...Array(5)].map((_, s) => (
-                  <span key={s} className="text-[#c9a052] text-sm">★</span>
-                ))}
-              </div>
+              {/* Large decorative quote mark (Maison Noir / Amelia Moreau style) */}
+              <span className="quote-mark-deco">&ldquo;</span>
 
               {/* Quote */}
               <p className="text-white/70 text-sm leading-relaxed flex-1 italic">

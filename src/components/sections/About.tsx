@@ -2,6 +2,8 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { WA_GENERAL, driveImageUrl, DRIVE_IMAGE_IDS } from "@/lib/constants";
+import SectionLabel from "@/components/ui/SectionLabel";
+import DecoFrame from "@/components/ui/DecoFrame";
 
 const credentials = [
   "Trancista há 7 anos",
@@ -32,12 +34,18 @@ export default function About() {
                 background: "linear-gradient(135deg, #c9a052 0%, transparent 60%)",
               }}
             />
-            <img
-              src={driveImageUrl(DRIVE_IMAGE_IDS[5], 800)}
-              alt="Katrinna — Especialista em Tranças"
-              className="relative rounded-3xl w-full object-cover"
-              style={{ aspectRatio: "4/5", objectPosition: "top" }}
-            />
+            <div className="relative rounded-3xl overflow-hidden">
+              <img
+                src={driveImageUrl(DRIVE_IMAGE_IDS[5], 800)}
+                alt="Katrinna — Especialista em Tranças"
+                className="w-full object-cover"
+                style={{ aspectRatio: "4/5", objectPosition: "top" }}
+              />
+              {/* Art Deco corner frame overlay */}
+              <div className="absolute inset-3">
+                <DecoFrame size={28} opacity={0.55} />
+              </div>
+            </div>
             {/* Badge */}
             <div
               className="absolute -bottom-4 -right-2 md:-right-6 rounded-2xl px-5 py-4 text-center"
@@ -58,9 +66,7 @@ export default function About() {
             className="flex flex-col gap-6"
           >
             <div>
-              <span className="text-[#c9a052] text-xs font-bold tracking-[0.3em] uppercase mb-3 block">
-                Quem sou eu
-              </span>
+              <SectionLabel align="left">Quem sou eu</SectionLabel>
               <h2 className="font-serif font-black text-4xl md:text-5xl leading-tight">
                 Olá, eu sou{" "}
                 <span className="text-gold-gradient italic">Katrinna</span>
