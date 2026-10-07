@@ -8,7 +8,6 @@ import About from "@/components/sections/About";
 import Courses from "@/components/sections/Courses";
 import Portfolio from "@/components/sections/Portfolio";
 import Testimonials from "@/components/sections/Testimonials";
-import FAQ from "@/components/sections/FAQ";
 import FinalCTA from "@/components/sections/FinalCTA";
 
 export default function Home() {
@@ -24,7 +23,6 @@ export default function Home() {
         <Courses />
         <Portfolio />
         <Testimonials />
-        <FAQ />
         <FinalCTA />
       </main>
       <Footer />

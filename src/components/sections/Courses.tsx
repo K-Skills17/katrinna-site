@@ -2,6 +2,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { WA_ETM, WA_EBOOK } from "@/lib/constants";
+import Link from "next/link";
 import SectionLabel from "@/components/ui/SectionLabel";
 
 const etmModules = [

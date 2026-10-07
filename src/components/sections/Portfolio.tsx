@@ -3,6 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { DRIVE_IMAGE_IDS, driveImageUrl, WA_GENERAL } from "@/lib/constants";
 import { ExternalLink } from "lucide-react";
+import Link from "next/link";
 import SectionLabel from "@/components/ui/SectionLabel";
 
 // Pick 8 images with varied aspect-ratio labels for the floating layout
@@ -132,17 +133,26 @@ export default function Portfolio() {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="mt-14 text-center"
         >
-          <p className="text-white/55 mb-5 text-base">
-            Gostou do que viu? Vamos conversar sobre o que posso fazer por você.
+          <p className="text-white/55 mb-6 text-base">
+            Gostou do que viu? Veja a galeria completa ou agende um horário.
           </p>
-          <a
-            href={WA_GENERAL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-gold px-8 py-4 rounded-full font-black text-sm inline-flex items-center gap-2"
-          >
-            Agendar Horário
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Link
+              href="/portfolio"
+              className="border text-sm px-7 py-3.5 rounded-full font-bold transition-all inline-flex items-center gap-2 hover:bg-[#c9a052]/10"
+              style={{ borderColor: "rgba(201,160,82,0.4)", color: "#c9a052" }}
+            >
+              Ver Galeria Completa →
+            </Link>
+            <a
+              href={WA_GENERAL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-gold px-8 py-3.5 rounded-full font-black text-sm inline-flex items-center gap-2"
+            >
+              Agendar Horário
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>

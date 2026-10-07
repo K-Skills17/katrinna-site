@@ -1,6 +1,7 @@
 "use client";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
+import SectionLabel from "@/components/ui/SectionLabel";
 
 const faqs = [
   {
@@ -44,9 +45,7 @@ export default function FAQ() {
           transition={{ duration: 0.7 }}
           className="text-center mb-12"
         >
-          <span className="text-[#c9a052] text-xs font-bold tracking-[0.3em] uppercase mb-4 block">
-            Dúvidas frequentes
-          </span>
+          <SectionLabel>Dúvidas frequentes</SectionLabel>
           <h2 className="font-serif font-black text-4xl md:text-5xl leading-tight">
             Ficou alguma{" "}
             <span className="text-gold-gradient italic">dúvida?</span>

@@ -1,23 +1,32 @@
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { WA_GENERAL } from "@/lib/constants";
 
 const navLinks = [
-  { label: "Sobre", href: "#sobre" },
-  { label: "Benefícios", href: "#beneficios" },
-  { label: "Cursos", href: "#cursos" },
-  { label: "Portfólio", href: "#portfolio" },
+  { label: "Início",     href: "/"          },
+  { label: "Portfólio",  href: "/portfolio" },
+  { label: "Cursos",     href: "/cursos"    },
+  { label: "Sobre",      href: "/#sobre"    },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    if (href.startsWith("/#")) return false; // anchor — never "active"
+    return pathname.startsWith(href);
+  };
 
   return (
     <nav
@@ -29,31 +38,61 @@ export default function Navbar() {
       }}
     >
       <div className="max-w-6xl mx-auto px-5 flex items-center justify-between h-16">
+
         {/* Logo */}
-        <a href="#" className="font-serif font-black text-xl tracking-widest uppercase text-gold-gradient flex items-center gap-2">
+        <Link
+          href="/"
+          className="font-serif font-black text-xl tracking-widest uppercase text-gold-gradient flex items-center gap-2"
+        >
           <span
             className="diamond-shimmer"
-            style={{ display: "block", width: "5px", height: "5px", background: "#c9a052", transform: "rotate(45deg)", flexShrink: 0, opacity: 0.7 }}
+            style={{
+              display: "block",
+              width: "5px",
+              height: "5px",
+              background: "#c9a052",
+              transform: "rotate(45deg)",
+              flexShrink: 0,
+              opacity: 0.7,
+            }}
           />
           KATRINNA
           <span
             className="diamond-shimmer"
-            style={{ display: "block", width: "5px", height: "5px", background: "#c9a052", transform: "rotate(45deg)", flexShrink: 0, opacity: 0.7 }}
+            style={{
+              display: "block",
+              width: "5px",
+              height: "5px",
+              background: "#c9a052",
+              transform: "rotate(45deg)",
+              flexShrink: 0,
+              opacity: 0.7,
+            }}
           />
-        </a>
+        </Link>
 
         {/* Desktop links */}
         <ul className="hidden md:flex items-center gap-8">
-          {navLinks.map((l) => (
-            <li key={l.href}>
-              <a
-                href={l.href}
-                className="text-sm font-medium text-white/70 hover:text-[#c9a052] transition-colors tracking-wide"
-              >
-                {l.label}
-              </a>
-            </li>
-          ))}
+          {navLinks.map((l) => {
+            const active = isActive(l.href);
+            return (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  className="flex flex-col items-center text-sm font-medium tracking-wide transition-colors"
+                  style={{ color: active ? "#c9a052" : "rgba(255,255,255,0.7)" }}
+                >
+                  {l.label}
+                  {active && (
+                    <span
+                      className="block h-px w-full mt-0.5"
+                      style={{ background: "rgba(201,160,82,0.5)" }}
+                    />
+                  )}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
         {/* CTA */}
@@ -82,14 +121,15 @@ export default function Navbar() {
       {open && (
         <div className="md:hidden bg-[#0e1318]/98 px-5 pb-6 pt-2 flex flex-col gap-4 border-t border-white/10">
           {navLinks.map((l) => (
-            <a
+            <Link
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="text-base font-medium text-white/80 hover:text-[#c9a052] py-1"
+              className="text-base font-medium py-1 transition-colors"
+              style={{ color: isActive(l.href) ? "#c9a052" : "rgba(255,255,255,0.8)" }}
             >
               {l.label}
-            </a>
+            </Link>
           ))}
           <a
             href={WA_GENERAL}
