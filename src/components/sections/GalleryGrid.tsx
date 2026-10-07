@@ -1,232 +1,122 @@
 "use client";
-import { useRef, useState, useEffect, useCallback } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useCallback, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 import { DRIVE_IMAGE_IDS, driveImageUrl } from "@/lib/constants";
 
-// ─── Photo pools grouped by style (corridor order) ───────────────────────────
-type Photo = { id: string; cat: string; tall: boolean };
+// ─── Photo data ──────────────────────────────────────────────────────────────
+type Photo = { id: string; cat: string };
 
-const BOX_BRAIDS: Photo[] = [
-  { id: DRIVE_IMAGE_IDS[1],  cat: "Box Braids", tall: true  },
-  { id: DRIVE_IMAGE_IDS[2],  cat: "Box Braids", tall: false },
-  { id: DRIVE_IMAGE_IDS[9],  cat: "Box Braids", tall: false },
-  { id: DRIVE_IMAGE_IDS[10], cat: "Box Braids", tall: true  },
-  { id: DRIVE_IMAGE_IDS[20], cat: "Box Braids", tall: false },
-  { id: DRIVE_IMAGE_IDS[22], cat: "Box Braids", tall: true  },
+const ALL_PHOTOS: Photo[] = [
+  { id: DRIVE_IMAGE_IDS[1],  cat: "Box Braids"  },
+  { id: DRIVE_IMAGE_IDS[2],  cat: "Box Braids"  },
+  { id: DRIVE_IMAGE_IDS[4],  cat: "Boho Braids" },
+  { id: DRIVE_IMAGE_IDS[6],  cat: "Boho Braids" },
+  { id: DRIVE_IMAGE_IDS[7],  cat: "Nagô"        },
+  { id: DRIVE_IMAGE_IDS[8],  cat: "Nagô"        },
+  { id: DRIVE_IMAGE_IDS[9],  cat: "Box Braids"  },
+  { id: DRIVE_IMAGE_IDS[10], cat: "Box Braids"  },
+  { id: DRIVE_IMAGE_IDS[11], cat: "Boho Braids" },
+  { id: DRIVE_IMAGE_IDS[12], cat: "Boho Braids" },
+  { id: DRIVE_IMAGE_IDS[13], cat: "Boho Braids" },
+  { id: DRIVE_IMAGE_IDS[14], cat: "Nagô"        },
+  { id: DRIVE_IMAGE_IDS[15], cat: "Twiste"      },
+  { id: DRIVE_IMAGE_IDS[16], cat: "Twiste"      },
+  { id: DRIVE_IMAGE_IDS[17], cat: "Nagô"        },
+  { id: DRIVE_IMAGE_IDS[18], cat: "Twiste"      },
+  { id: DRIVE_IMAGE_IDS[19], cat: "Nagô"        },
+  { id: DRIVE_IMAGE_IDS[20], cat: "Box Braids"  },
+  { id: DRIVE_IMAGE_IDS[21], cat: "Boho Braids" },
+  { id: DRIVE_IMAGE_IDS[22], cat: "Box Braids"  },
+  { id: DRIVE_IMAGE_IDS[23], cat: "Twiste"      },
 ];
 
-const BOHO_BRAIDS: Photo[] = [
-  { id: DRIVE_IMAGE_IDS[4],  cat: "Boho Braids", tall: true  },
-  { id: DRIVE_IMAGE_IDS[6],  cat: "Boho Braids", tall: false },
-  { id: DRIVE_IMAGE_IDS[11], cat: "Boho Braids", tall: true  },
-  { id: DRIVE_IMAGE_IDS[12], cat: "Boho Braids", tall: false },
-  { id: DRIVE_IMAGE_IDS[13], cat: "Boho Braids", tall: true  },
-  { id: DRIVE_IMAGE_IDS[21], cat: "Boho Braids", tall: false },
-];
+// Strip 2 starts 10 photos in — so both strips show different photos simultaneously
+const STRIP2: Photo[] = [...ALL_PHOTOS.slice(10), ...ALL_PHOTOS.slice(0, 10)];
 
-const NAGO: Photo[] = [
-  { id: DRIVE_IMAGE_IDS[7],  cat: "Nagô", tall: true  },
-  { id: DRIVE_IMAGE_IDS[8],  cat: "Nagô", tall: false },
-  { id: DRIVE_IMAGE_IDS[14], cat: "Nagô", tall: false },
-  { id: DRIVE_IMAGE_IDS[17], cat: "Nagô", tall: true  },
-  { id: DRIVE_IMAGE_IDS[19], cat: "Nagô", tall: true  },
-];
+// ─── Photo card ──────────────────────────────────────────────────────────────
+// Using margin-right (not gap) so -50% translateX = exactly one copy width
+const PHOTO_W = 210;  // px
+const PHOTO_GAP = 10; // px — margin-right on each item (incl. last) → seamless math
 
-const TWISTE: Photo[] = [
-  { id: DRIVE_IMAGE_IDS[15], cat: "Twiste", tall: true  },
-  { id: DRIVE_IMAGE_IDS[16], cat: "Twiste", tall: false },
-  { id: DRIVE_IMAGE_IDS[18], cat: "Twiste", tall: false },
-  { id: DRIVE_IMAGE_IDS[23], cat: "Twiste", tall: true  },
-];
-
-// Flat list for lightbox (same order as sections)
-const ALL_PHOTOS: Photo[] = [...BOX_BRAIDS, ...BOHO_BRAIDS, ...NAGO, ...TWISTE];
-
-// ─── Layout engine ─────────────────────────────────────────────────────────
-// Each slot: [flex-grow, dy offset px, rotation deg]
-type Slot = [number, number, number];
-
-type LayoutRow = Array<{ photo: Photo; flex: number; dy: number; rot: number }>;
-
-function buildRows(photos: Photo[], rowSlots: Slot[][]): LayoutRow[] {
-  let cursor = 0;
-  return rowSlots.map((slots) =>
-    slots.map(([flex, dy, rot]) => ({ photo: photos[cursor++], flex, dy, rot }))
-  );
-}
-
-// 6-photo sections — 2 rows of 3, each row with intentional offsets
-const BOX_ROWS = buildRows(BOX_BRAIDS, [
-  [[5, 0, -1.2], [4, 58, 0.7], [3, 22, -0.4]],
-  [[3, 44, 0.9], [5, 0, -0.6], [4, 32, 1.1]],
-]);
-
-const BOHO_ROWS = buildRows(BOHO_BRAIDS, [
-  [[4, 0,  0.6], [5, 64, -1.0], [3, 30,  0.4]],
-  [[5, 48, -0.8], [3, 0,  0.7], [4, 36, -0.5]],
-]);
-
-// 5-photo section — row of 2, row of 3
-const NAGO_ROWS = buildRows(NAGO, [
-  [[5, 0, -0.8], [4, 52, 0.5]],
-  [[3, 32, 1.0], [4, 0, -0.6], [5, 42, 0.8]],
-]);
-
-// 4-photo section — 2 rows of 2
-const TWISTE_ROWS = buildRows(TWISTE, [
-  [[5, 0, -1.0], [4, 62, 0.6]],
-  [[4, 36, 0.8], [5, 0, -0.5]],
-]);
-
-// Section offsets in the flat ALL_PHOTOS array
-const SECTIONS = [
-  { id: "box-braids",  label: "Box Braids",  idx: "01", rows: BOX_ROWS,   offset: 0  },
-  { id: "boho-braids", label: "Boho Braids", idx: "02", rows: BOHO_ROWS,  offset: 6  },
-  { id: "nago",        label: "Nagô",        idx: "03", rows: NAGO_ROWS,  offset: 12 },
-  { id: "twiste",      label: "Twiste",      idx: "04", rows: TWISTE_ROWS,offset: 17 },
-];
-
-// ─── Single photo card ────────────────────────────────────────────────────
 function PhotoCard({
-  photo, flex, dy, rot, globalIdx, onOpen,
+  photo,
+  globalIdx,
+  onClick,
 }: {
-  photo: Photo; flex: number; dy: number; rot: number;
-  globalIdx: number; onOpen: () => void;
+  photo: Photo;
+  globalIdx: number;
+  onClick: () => void;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-
   return (
     <div
+      className="relative overflow-hidden rounded-xl group flex-shrink-0"
       style={{
-        flex: `${flex} ${flex} 0%`,
-        minWidth: 0,
-        transform: `translateY(${dy}px) rotate(${rot}deg)`,
+        width: PHOTO_W,
+        aspectRatio: "3 / 4",
+        marginRight: PHOTO_GAP,
+        cursor: "zoom-in",
       }}
+      onClick={onClick}
     >
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, y: 28 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        whileHover={{ scale: 1.04 }}
-        className="relative overflow-hidden rounded-xl cursor-pointer group"
-        style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.35)" }}
-        onClick={onOpen}
+      {/* Photo */}
+      <img
+        src={driveImageUrl(photo.id, 700)}
+        alt={`${photo.cat} — Studio Afro Rosa's`}
+        draggable={false}
+        loading="lazy"
+        className="w-full h-full object-cover object-top"
+        style={{ transition: "transform 0.65s cubic-bezier(0.22,1,0.36,1)" }}
+        onMouseEnter={(e) => ((e.currentTarget as HTMLImageElement).style.transform = "scale(1.07)")}
+        onMouseLeave={(e) => ((e.currentTarget as HTMLImageElement).style.transform = "scale(1)")}
+      />
+
+      {/* Overlay on hover */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
+        style={{ background: "rgba(10,14,18,0.4)" }}
       >
-        <img
-          src={driveImageUrl(photo.id, 900)}
-          alt={`${photo.cat} — Studio Afro Rosa's`}
-          className="w-full object-cover object-top"
-          style={{ aspectRatio: photo.tall ? "3/4" : "4/3", display: "block" }}
-          loading="lazy"
-        />
+        <Maximize2 size={24} color="white" strokeWidth={1.5} className="drop-shadow-lg" />
+      </div>
 
-        {/* Hover gradient overlay */}
-        <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3.5"
-          style={{ background: "linear-gradient(to top, rgba(12,17,22,0.92) 0%, transparent 55%)" }}
+      {/* Bottom label */}
+      <div
+        className="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-between"
+        style={{
+          background: "linear-gradient(to top, rgba(10,14,18,0.88) 0%, transparent 100%)",
+          transform: "translateY(4px)",
+        }}
+        onMouseEnter={(e) => ((e.currentTarget as HTMLDivElement).style.transform = "translateY(0)")}
+        onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.transform = "translateY(4px)")}
+      >
+        <span className="text-white/90 text-xs font-semibold tracking-wide">{photo.cat}</span>
+        <span
+          style={{
+            color: "#c9a052",
+            fontSize: "0.52rem",
+            fontWeight: 700,
+            letterSpacing: "0.16em",
+          }}
         >
-          <span
-            style={{
-              color: "#c9a052", fontSize: "0.52rem", fontWeight: 700,
-              letterSpacing: "0.18em", textTransform: "uppercase", display: "block",
-            }}
-          >
-            {String(globalIdx + 1).padStart(2, "0")}
-          </span>
-          <span className="text-white/90 text-xs font-semibold tracking-wide mt-0.5">
-            {photo.cat}
-          </span>
-        </div>
+          {String(globalIdx + 1).padStart(2, "0")}
+        </span>
+      </div>
 
-        {/* Gold ring on hover */}
-        <div
-          className="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-          style={{ boxShadow: "inset 0 0 0 1.5px rgba(201,160,82,0.5)" }}
-        />
-      </motion.div>
+      {/* Gold border ring on hover */}
+      <div
+        className="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+        style={{ boxShadow: "inset 0 0 0 1.5px rgba(201,160,82,0.55)" }}
+      />
     </div>
   );
 }
 
-// ─── Section divider label ─────────────────────────────────────────────────
-function SectionDivider({ idx, label, count }: { idx: string; label: string; count: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, x: -24 }}
-      animate={inView ? { opacity: 1, x: 0 } : {}}
-      transition={{ duration: 0.6 }}
-      className="flex items-end gap-5 mb-8"
-    >
-      {/* Ghost number */}
-      <span
-        className="font-serif font-black leading-none select-none flex-shrink-0"
-        style={{ fontSize: "clamp(4rem, 10vw, 7rem)", color: "rgba(255,255,255,0.04)" }}
-      >
-        {idx}
-      </span>
-
-      {/* Title + line */}
-      <div className="flex-1 pb-1">
-        <h2
-          className="font-serif font-black text-white leading-none"
-          style={{ fontSize: "clamp(1.5rem, 4vw, 2.4rem)" }}
-        >
-          {label}
-        </h2>
-        <div className="flex items-center gap-3 mt-2">
-          <span
-            className="block h-px flex-1"
-            style={{ background: "linear-gradient(90deg, rgba(201,160,82,0.5), transparent)", maxWidth: "120px" }}
-          />
-          <span
-            style={{
-              color: "rgba(201,160,82,0.6)", fontSize: "0.58rem",
-              fontWeight: 700, letterSpacing: "0.3em", textTransform: "uppercase",
-            }}
-          >
-            {count} trabalhos
-          </span>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-// ─── Main component ───────────────────────────────────────────────────────
+// ─── Main component ───────────────────────────────────────────────────────────
 export default function GalleryGrid() {
+  const [paused, setPaused] = useState(false);
   const [lightbox, setLightbox] = useState<number | null>(null);
-  const [activeSection, setActiveSection] = useState("box-braids");
 
-  // Scroll-spy: highlight active section tab
-  useEffect(() => {
-    const handler = () => {
-      for (const s of [...SECTIONS].reverse()) {
-        const el = document.getElementById(s.id);
-        if (el && el.getBoundingClientRect().top <= 140) {
-          setActiveSection(s.id);
-          return;
-        }
-      }
-      setActiveSection(SECTIONS[0].id);
-    };
-    window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
-
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 96, behavior: "smooth" });
-  };
-
-  // Lightbox controls
+  // Keyboard navigation
   const closeLightbox = useCallback(() => setLightbox(null), []);
   const prevImg = useCallback(
     () => setLightbox((p) => (p === null ? null : (p - 1 + ALL_PHOTOS.length) % ALL_PHOTOS.length)),
@@ -248,104 +138,93 @@ export default function GalleryGrid() {
     return () => window.removeEventListener("keydown", handler);
   }, [lightbox, closeLightbox, prevImg, nextImg]);
 
+  // Scroll lock while lightbox is open
   useEffect(() => {
     document.body.style.overflow = lightbox !== null ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [lightbox]);
 
   return (
-    <section className="py-10 px-5">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-14">
 
-        {/* ── Sticky style-navigation strip ── */}
+      {/* Usage hint */}
+      <p
+        className="text-center mb-10"
+        style={{
+          color: "rgba(255,255,255,0.18)",
+          fontSize: "0.6rem",
+          letterSpacing: "0.32em",
+          textTransform: "uppercase",
+        }}
+      >
+        Passe o mouse para pausar · Clique para ampliar
+      </p>
+
+      {/* ── Strips wrapper — hover pauses both ── */}
+      <div
+        className="overflow-hidden"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
+
+        {/* Strip 1 — slides LEFT */}
         <div
-          className="sticky top-16 z-30 flex justify-center gap-1 py-3 mb-16"
+          className="flex"
           style={{
-            background: "rgba(17,24,32,0.92)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            borderBottom: "1px solid rgba(255,255,255,0.05)",
+            animation: "marquee-left 42s linear infinite",
+            animationPlayState: paused ? "paused" : "running",
+            willChange: "transform",
           }}
         >
-          {SECTIONS.map((s) => {
-            const active = activeSection === s.id;
+          {[...ALL_PHOTOS, ...ALL_PHOTOS].map((photo, i) => (
+            <PhotoCard
+              key={`s1-${i}`}
+              photo={photo}
+              globalIdx={i % ALL_PHOTOS.length}
+              onClick={() => setLightbox(i % ALL_PHOTOS.length)}
+            />
+          ))}
+        </div>
+
+        {/* 12px gap between strips */}
+        <div className="h-3" />
+
+        {/* Strip 2 — slides RIGHT, offset start */}
+        <div
+          className="flex"
+          style={{
+            animation: "marquee-right 36s linear infinite",
+            animationPlayState: paused ? "paused" : "running",
+            willChange: "transform",
+          }}
+        >
+          {[...STRIP2, ...STRIP2].map((photo, i) => {
+            // Map back to original ALL_PHOTOS index for the lightbox
+            const originalIdx = ALL_PHOTOS.findIndex((p) => p.id === photo.id);
             return (
-              <button
-                key={s.id}
-                onClick={() => scrollToSection(s.id)}
-                className="px-4 py-1.5 rounded-full transition-all duration-200 font-bold"
-                style={{
-                  background: active ? "linear-gradient(135deg, #e8c87a, #c9a052, #9a7a38)" : "transparent",
-                  color: active ? "#0e1318" : "rgba(255,255,255,0.4)",
-                  fontSize: "0.66rem",
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                }}
-              >
-                {s.label}
-              </button>
+              <PhotoCard
+                key={`s2-${i}`}
+                photo={photo}
+                globalIdx={originalIdx}
+                onClick={() => setLightbox(originalIdx)}
+              />
             );
           })}
         </div>
+      </div>
 
-        {/* ── Corridor — all sections flow together ── */}
-        {SECTIONS.map((section) => (
-          <div key={section.id} id={section.id} className="mb-20 md:mb-28">
-
-            <SectionDivider
-              idx={section.idx}
-              label={section.label}
-              count={section.rows.flat().length}
-            />
-
-            {/* Photo rows with intentional dy offsets */}
-            <div className="flex flex-col" style={{ gap: "10px" }}>
-              {section.rows.map((row, ri) => {
-                // For the last row, add extra bottom padding so dy offsets don't clip
-                const maxDy = Math.max(...row.map((r) => r.dy));
-                return (
-                  <div
-                    key={ri}
-                    className="flex items-start"
-                    style={{ gap: "10px", paddingBottom: maxDy > 0 ? `${maxDy}px` : "0" }}
-                  >
-                    {row.map(({ photo, flex, dy, rot }, pi) => {
-                      const flatIdx = section.rows.slice(0, ri).reduce((a, r) => a + r.length, 0) + pi;
-                      const globalIdx = section.offset + flatIdx;
-                      return (
-                        <PhotoCard
-                          key={photo.id}
-                          photo={photo}
-                          flex={flex}
-                          dy={dy}
-                          rot={rot}
-                          globalIdx={globalIdx}
-                          onOpen={() => setLightbox(globalIdx)}
-                        />
-                      );
-                    })}
-                  </div>
-                );
-              })}
-            </div>
-
-          </div>
-        ))}
-
-        {/* Footer count */}
-        <div
-          className="flex items-center justify-center gap-4 pt-4 pb-8"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+      {/* Footer count */}
+      <div className="mt-12 text-center">
+        <p
+          style={{
+            color: "rgba(255,255,255,0.15)",
+            fontSize: "0.6rem",
+            letterSpacing: "0.28em",
+            textTransform: "uppercase",
+          }}
         >
-          <span
-            style={{
-              color: "rgba(255,255,255,0.18)", fontSize: "0.6rem",
-              letterSpacing: "0.28em", textTransform: "uppercase",
-            }}
-          >
-            {ALL_PHOTOS.length} trabalhos · Studio Afro Rosa&apos;s
-          </span>
-        </div>
+          {ALL_PHOTOS.length} trabalhos · Studio Afro Rosa&apos;s
+        </p>
       </div>
 
       {/* ── Lightbox ── */}
@@ -355,50 +234,54 @@ export default function GalleryGrid() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.18 }}
-            className="fixed inset-0 z-50 flex items-center justify-center px-4 py-10"
-            style={{ background: "rgba(6,10,14,0.97)" }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center px-4 py-12"
+            style={{ background: "rgba(5,8,12,0.97)" }}
             onClick={closeLightbox}
           >
             <motion.div
-              initial={{ scale: 0.94, opacity: 0 }}
+              initial={{ scale: 0.93, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.94, opacity: 0 }}
-              transition={{ duration: 0.22 }}
+              exit={{ scale: 0.93, opacity: 0 }}
+              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
               className="relative max-w-2xl w-full flex flex-col gap-5"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close */}
               <button
                 onClick={closeLightbox}
-                className="absolute -top-9 right-0 flex items-center gap-1.5 transition-colors text-sm"
-                style={{ color: "rgba(255,255,255,0.4)" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "white")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}
+                className="absolute -top-10 right-0 flex items-center gap-2 text-sm transition-colors"
+                style={{ color: "rgba(255,255,255,0.35)" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.9)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.35)")}
               >
                 Fechar <X size={15} />
               </button>
 
-              {/* Image */}
-              <img
+              {/* Full-size photo */}
+              <motion.img
+                key={lightbox}
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.25 }}
                 src={driveImageUrl(ALL_PHOTOS[lightbox].id, 1400)}
                 alt={`${ALL_PHOTOS[lightbox].cat} — Studio Afro Rosa's`}
                 className="w-full rounded-2xl"
                 style={{
-                  maxHeight: "74vh",
+                  maxHeight: "72vh",
                   objectFit: "contain",
-                  boxShadow: "0 30px 80px rgba(0,0,0,0.6)",
+                  boxShadow: "0 32px 80px rgba(0,0,0,0.7)",
                 }}
               />
 
-              {/* Nav */}
+              {/* Navigation */}
               <div className="flex items-center justify-between px-1">
                 <button
                   onClick={prevImg}
-                  className="flex items-center gap-1 transition-colors text-xs font-medium tracking-wider uppercase"
-                  style={{ color: "rgba(255,255,255,0.35)" }}
+                  className="flex items-center gap-1.5 text-xs font-medium tracking-wider uppercase transition-colors"
+                  style={{ color: "rgba(255,255,255,0.3)" }}
                   onMouseEnter={(e) => (e.currentTarget.style.color = "#c9a052")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.35)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.3)")}
                 >
                   <ChevronLeft size={18} /> Anterior
                 </button>
@@ -406,23 +289,29 @@ export default function GalleryGrid() {
                 <div className="text-center">
                   <span
                     style={{
-                      color: "#c9a052", fontSize: "0.58rem", fontWeight: 700,
-                      letterSpacing: "0.22em", textTransform: "uppercase", display: "block",
+                      color: "#c9a052",
+                      fontSize: "0.58rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.24em",
+                      textTransform: "uppercase",
+                      display: "block",
                     }}
                   >
                     {String(lightbox + 1).padStart(2, "0")} / {String(ALL_PHOTOS.length).padStart(2, "0")}
                   </span>
-                  <span className="text-white/50 text-sm font-medium">
+                  <span
+                    className="text-white/45 text-sm font-medium tracking-wide"
+                  >
                     {ALL_PHOTOS[lightbox].cat}
                   </span>
                 </div>
 
                 <button
                   onClick={nextImg}
-                  className="flex items-center gap-1 transition-colors text-xs font-medium tracking-wider uppercase"
-                  style={{ color: "rgba(255,255,255,0.35)" }}
+                  className="flex items-center gap-1.5 text-xs font-medium tracking-wider uppercase transition-colors"
+                  style={{ color: "rgba(255,255,255,0.3)" }}
                   onMouseEnter={(e) => (e.currentTarget.style.color = "#c9a052")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.35)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.3)")}
                 >
                   Próximo <ChevronRight size={18} />
                 </button>

@@ -109,6 +109,19 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
+/* ─── Infinite marquee strips ─────────────────────────────────────────────── */
+/* Each photo has margin-right so the outer div width = n × (photoW + gap)     */
+/* Duplicated array ⟹ element width = 2 × single-copy width                    */
+/* translateX(-50%) = exactly one copy width → seamless loop                   */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
 /* Large serif quotation mark — testimonial decoration */
 .quote-mark-deco {
   font-family: var(--font-serif), Georgia, serif;
