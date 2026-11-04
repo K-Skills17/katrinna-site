@@ -199,10 +199,9 @@ function CategorySection({
                 whileInView="visible"
                 viewport={{ once: true, margin: "-40px" }}
                 onClick={() => onOpen(photos, i)}
-                className="relative overflow-hidden rounded-2xl group flex-shrink-0 cursor-zoom-in"
+                className="relative overflow-hidden rounded-2xl group flex-shrink-0 cursor-zoom-in h-[260px] md:h-[400px]"
                 style={{
                   width: w,
-                  height: 420,
                   scrollSnapAlign: "start",
                 }}
                 whileHover={{ y: -6, transition: { duration: 0.3, ease: "easeOut" } }}
@@ -376,6 +375,32 @@ export default function GaleriaSections() {
         </span>
       </motion.div>
 
+      {/* ── Mobile pill nav — must live OUTSIDE the flex container ── */}
+      <div
+        className="lg:hidden overflow-x-auto px-5 pb-4 mb-6"
+        style={{ scrollbarWidth: "none" }}
+      >
+        <div className="flex gap-2">
+          {CATEGORIES.map((cat) => {
+            const isActive = cat === activeSection;
+            return (
+              <button
+                key={cat}
+                onClick={() => scrollToSection(cat)}
+                className="flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-200"
+                style={{
+                  background: isActive ? "rgba(201,160,82,0.15)" : "rgba(255,255,255,0.04)",
+                  border: `1px solid ${isActive ? "rgba(201,160,82,0.5)" : "rgba(255,255,255,0.08)"}`,
+                  color: isActive ? "#c9a052" : "rgba(255,255,255,0.4)",
+                }}
+              >
+                {cat}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       <div className="flex gap-0">
         {/* ── Sticky sidebar (desktop) ── */}
         <aside className="hidden lg:block w-52 flex-shrink-0 relative">
@@ -434,32 +459,6 @@ export default function GaleriaSections() {
             </div>
           </div>
         </aside>
-
-        {/* ── Mobile pill nav ── */}
-        <div className="lg:hidden w-full">
-          <div
-            className="flex gap-2 overflow-x-auto px-5 pb-4 mb-8"
-            style={{ scrollbarWidth: "none" }}
-          >
-            {CATEGORIES.map((cat) => {
-              const isActive = cat === activeSection;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => scrollToSection(cat)}
-                  className="flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-200"
-                  style={{
-                    background: isActive ? "rgba(201,160,82,0.15)" : "rgba(255,255,255,0.04)",
-                    border: `1px solid ${isActive ? "rgba(201,160,82,0.5)" : "rgba(255,255,255,0.08)"}`,
-                    color: isActive ? "#c9a052" : "rgba(255,255,255,0.4)",
-                  }}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
-        </div>
 
         {/* ── Sections ── */}
         <div className="flex-1 min-w-0">

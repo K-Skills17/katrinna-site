@@ -4,12 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 import { GALLERY_PHOTOS, GALLERY_CATEGORIES, driveImageUrl } from "@/lib/constants";
 
-// ─── Marquee constants ────────────────────────────────────────────────────────
-const PHOTO_W = 210;
-const PHOTO_GAP = 10;
-
-// Strip 2 starts halfway through so both rows show different photos
-const STRIP2 = [...GALLERY_PHOTOS.slice(15), ...GALLERY_PHOTOS.slice(0, 15)];
+const PHOTO_W = 200;
 
 // ─── Photo card ───────────────────────────────────────────────────────────────
 function PhotoCard({
@@ -28,7 +23,7 @@ function PhotoCard({
       className="relative overflow-hidden rounded-xl group"
       style={
         fixed
-          ? { width: PHOTO_W, aspectRatio: "3 / 4", marginRight: PHOTO_GAP, flexShrink: 0, cursor: "zoom-in" }
+          ? { width: PHOTO_W, aspectRatio: "3 / 4", flexShrink: 0, cursor: "zoom-in" }
           : { aspectRatio: "3 / 4", cursor: "zoom-in" }
       }
       onClick={onClick}
@@ -75,7 +70,6 @@ function PhotoCard({
 // ─── Main component ───────────────────────────────────────────────────────────
 export default function GalleryGrid() {
   const [activeCategory, setActiveCategory] = useState<string>("Todos");
-  const [paused, setPaused] = useState(false);
   const [lightbox, setLightbox] = useState<number | null>(null);
 
   const visiblePhotos =
@@ -139,18 +133,18 @@ export default function GalleryGrid() {
         })}
       </div>
 
-      {/* ── Marquee (Todos) or Grid (filtered) ── */}
+      {/* ── Scroll strip (Todos) or Grid (filtered) ── */}
       <AnimatePresence mode="wait">
         {activeCategory === "Todos" ? (
           <motion.div
-            key="marquee"
+            key="all"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.2 }}
           >
             <p
-              className="text-center mb-6"
+              className="text-center mb-5"
               style={{
                 color: "rgba(255,255,255,0.18)",
                 fontSize: "0.6rem",
@@ -158,57 +152,22 @@ export default function GalleryGrid() {
                 textTransform: "uppercase",
               }}
             >
-              Passe o mouse para pausar · Clique para ampliar
+              Arraste para explorar · Clique para ampliar
             </p>
-
             <div
-              className="overflow-hidden"
-              onMouseEnter={() => setPaused(true)}
-              onMouseLeave={() => setPaused(false)}
+              className="overflow-x-auto pb-4"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
-              {/* Strip 1 — slides LEFT */}
-              <div
-                className="flex"
-                style={{
-                  animation: "marquee-left 42s linear infinite",
-                  animationPlayState: paused ? "paused" : "running",
-                  willChange: "transform",
-                }}
-              >
-                {[...GALLERY_PHOTOS, ...GALLERY_PHOTOS].map((photo, i) => (
+              <div className="flex gap-3 px-5" style={{ width: "max-content" }}>
+                {GALLERY_PHOTOS.map((photo, i) => (
                   <PhotoCard
-                    key={`s1-${i}`}
+                    key={photo.id}
                     photo={photo}
-                    globalIdx={i % GALLERY_PHOTOS.length}
-                    onClick={() => setLightbox(i % GALLERY_PHOTOS.length)}
+                    globalIdx={i}
+                    onClick={() => setLightbox(i)}
                     fixed
                   />
                 ))}
-              </div>
-
-              <div className="h-3" />
-
-              {/* Strip 2 — slides RIGHT */}
-              <div
-                className="flex"
-                style={{
-                  animation: "marquee-right 36s linear infinite",
-                  animationPlayState: paused ? "paused" : "running",
-                  willChange: "transform",
-                }}
-              >
-                {[...STRIP2, ...STRIP2].map((photo, i) => {
-                  const originalIdx = GALLERY_PHOTOS.findIndex((p) => p.id === photo.id);
-                  return (
-                    <PhotoCard
-                      key={`s2-${i}`}
-                      photo={photo}
-                      globalIdx={originalIdx}
-                      onClick={() => setLightbox(originalIdx)}
-                      fixed
-                    />
-                  );
-                })}
               </div>
             </div>
           </motion.div>
