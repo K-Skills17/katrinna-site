@@ -45,7 +45,7 @@ function CategoryRow({
             className="block text-xs font-mono tracking-widest uppercase mb-2"
             style={{ color: "rgba(201,160,82,0.6)" }}
           >
-            {String(CATEGORIES.indexOf(cat) + 1).padStart(2, "0")} · estilo
+            {String(CATEGORIES.findIndex((c) => c === cat) + 1).padStart(2, "0")} · estilo
           </span>
           <h2
             className="font-serif font-black text-3xl md:text-4xl"
