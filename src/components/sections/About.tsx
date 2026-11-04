@@ -36,7 +36,7 @@ export default function About() {
             />
             <div className="relative rounded-3xl overflow-hidden">
               <img
-                src={driveImageUrl("1oaG5lwDMr8iDrEuhFehtbnG81i3ihAZf", 800)}
+                src="/katrinna-about.jpg"
                 alt="Katrinna — Especialista em Tranças"
                 className="w-full object-cover"
                 style={{ aspectRatio: "4/5", objectPosition: "top" }}

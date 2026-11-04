@@ -14,33 +14,39 @@ import SectionLabel from "@/components/ui/SectionLabel";
 const benefits = [
   {
     Icon: TrendingUp,
-    title: "Dinheiro sobrando no fim do mês",
-    desc: "Aprenda a precificar cada serviço com lógica e segurança. Chega de cobrar no chute — você vai saber exatamente quanto custa cada cliente e quanto de lucro real você tem.",
+    label: "01 · FINANÇAS",
+    title: "Você trabalha muito. Mas quanto realmente fica no seu bolso?",
+    desc: "Aprenda a calcular seus custos, definir preços com estratégia e descobrir quanto cada atendimento deixa de lucro. Pare de confundir dinheiro entrando com dinheiro sobrando.",
   },
   {
     Icon: Users,
-    title: "Clientes chegando até você",
-    desc: "Pare de correr atrás de indicação. Com a presença digital certa, sua agenda enche porque as pessoas te encontram, confiam em você e já querem agendar.",
+    label: "02 · CLIENTES",
+    title: "Cansada de depender da indicação para conseguir clientes?",
+    desc: "Aprenda a divulgar seu trabalho de forma estratégica, alcançar pessoas que ainda não conhecem você e criar oportunidades para transformar interesse em agendamentos.",
   },
   {
     Icon: Target,
-    title: "Conteúdo que vende, não só engaja",
-    desc: "Aprenda a criar posts, stories e reels que transformam seguidoras em clientes pagantes — não apenas curtidas. Seu Instagram vira uma máquina de agendamentos.",
+    label: "03 · MARKETING",
+    title: "Seu Instagram mostra o valor do seu trabalho ou só publica fotos?",
+    desc: "Aprenda a criar conteúdos que despertam desejo, demonstram sua habilidade e ajudam potenciais clientes a entender por que escolher você.",
   },
   {
     Icon: Scissors,
-    title: "Técnicas que impressionam e diferenciam",
-    desc: "Box braids, Boho braids, Nagô, Twiste com cachos e muito mais. Domine as técnicas mais pedidas e se posicione como referência no mercado.",
+    label: "04 · TÉCNICA",
+    title: "Não deixe a falta de técnica limitar o seu crescimento.",
+    desc: "Aprimore seus acabamentos e amplie seu repertório com estilos como Box Braids, Boho Braids, Nagô e Twist, para oferecer mais possibilidades às suas clientes.",
   },
   {
     Icon: Lightbulb,
-    title: "Mentalidade de empreendedora",
-    desc: "Você aprende a ver seu negócio com outros olhos: separar as finanças pessoais das profissionais, criar rotinas que funcionam e tomar decisões com clareza.",
+    label: "05 · ORGANIZAÇÃO",
+    title: "Seu negócio não pode depender de você resolver tudo na correria.",
+    desc: "Aprenda a separar suas finanças pessoais das profissionais, organizar sua rotina e tomar decisões com mais clareza, sem precisar improvisar a cada novo desafio.",
   },
   {
     Icon: Award,
-    title: "Reconhecida como especialista",
-    desc: "Quando você domina técnica, negócio e presença digital ao mesmo tempo, você sai da concorrência por preço e entra na concorrência por valor e autoridade.",
+    label: "06 · POSICIONAMENTO",
+    title: "Pare de disputar clientes apenas pelo preço.",
+    desc: "Desenvolva sua técnica, valorize sua experiência e aprenda a comunicar seus diferenciais para que suas clientes entendam o valor do seu trabalho — além do preço cobrado.",
   },
 ];
 
@@ -90,6 +96,9 @@ export default function Benefits() {
               >
                 <b.Icon size={22} color="#c9a052" strokeWidth={1.8} />
               </div>
+              <span className="text-xs font-mono tracking-widest text-[#c9a052]/70 uppercase">
+                {b.label}
+              </span>
               <h3 className="font-serif font-bold text-lg text-white group-hover:text-[#c9a052] transition-colors leading-snug">
                 {b.title}
               </h3>

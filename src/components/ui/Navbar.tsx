@@ -5,10 +5,11 @@ import { usePathname } from "next/navigation";
 import { WA_GENERAL } from "@/lib/constants";
 
 const navLinks = [
-  { label: "Início",     href: "/"          },
-  { label: "Portfólio",  href: "/portfolio" },
-  { label: "Cursos",     href: "/cursos"    },
-  { label: "Sobre",      href: "/#sobre"    },
+  { label: "Início",    href: "/"         },
+  { label: "Galeria",   href: "/galeria"  },
+  { label: "Portfólio", href: "/portfolio" },
+  { label: "Cursos",    href: "/cursos"   },
+  { label: "Sobre",     href: "/#sobre"   },
 ];
 
 export default function Navbar() {

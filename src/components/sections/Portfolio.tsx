@@ -138,7 +138,7 @@ export default function Portfolio() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
-              href="/portfolio"
+              href="/galeria"
               className="border text-sm px-7 py-3.5 rounded-full font-bold transition-all inline-flex items-center gap-2 hover:bg-[#c9a052]/10"
               style={{ borderColor: "rgba(201,160,82,0.4)", color: "#c9a052" }}
             >
