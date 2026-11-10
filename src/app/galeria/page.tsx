@@ -24,7 +24,7 @@ export default function GaleriaPage() {
           bgImageIndex={1}
         />
         <GaleriaSections />
-        <FinalCTA />
+        <FinalCTA variant="booking" />
       </main>
       <Footer />
     </>
